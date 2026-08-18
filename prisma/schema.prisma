@@ -9,9 +9,8 @@ datasource db {
 
 model Order {
   id                  String   @id @default(cuid())
-  status              String   @default("Confirmed") // Confirmed, Preparing, Ready, Out for Delivery, Delivered, Delayed, Returned, Damaged, Canceled
+  status              String   @default("Confirmed")
   
-  // Financials (Always deterministic, calculated by system)
   subtotal            Float    @default(0)
   deliveryFee         Float    @default(0)
   totalOrderAmount    Float    @default(0)
@@ -20,16 +19,14 @@ model Order {
   merchantAmount      Float    @default(0)
   driverShare         Float    @default(0)
   myRevenue           Float    @default(0)
-  revenuePercentage   Float    @default(20) // Default 20%
-  paymentMethod       String   @default("Cash") // Cash, Settled, Online
+  revenuePercentage   Float    @default(20)
+  paymentMethod       String   @default("Cash")
 
-  // Timestamps & Tracking
   expectedDelivery    DateTime?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   originalImportText  String?  @db.Text
 
-  // Relations
   customerId          String?
   customer            Customer? @relation(fields: [customerId], references: [id])
   merchantId          String?
