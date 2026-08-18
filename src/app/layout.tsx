@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Cairo } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 import { LayoutDashboard, ShoppingBag, Users, Store, BookOpen, Settings, Truck } from "lucide-react";
 
-// Cairo font natively supports Arabic beautifully.
 const font = Cairo({ subsets: ["latin", "arabic"] });
 
 export const metadata: Metadata = {
-  title: "Delivery Order System",
+  title: "DeliveryOS",
   description: "Complete order management platform",
 };
 
@@ -16,13 +15,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Set dir="rtl" for Arabic layout, or "ltr" for English.
-  // We will default to ltr here, but the CSS supports both seamlessly.
   return (
     <html lang="en" dir="ltr">
       <body className={`${font.className} flex h-screen bg-slate-50`}>
-        
-        {/* Sidebar Navigation */}
         <aside className="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex">
           <div className="p-6 border-b border-slate-200">
             <h1 className="text-xl font-bold text-slate-800">DeliveryOS</h1>
@@ -40,7 +35,6 @@ export default function RootLayout({
           </div>
         </aside>
 
-        {/* Main Content Area */}
         <main className="flex-1 flex flex-col overflow-hidden">
           <header className="h-16 bg-white border-b border-slate-200 flex items-center px-6 md:hidden">
             <h1 className="text-xl font-bold text-slate-800">DeliveryOS</h1>
@@ -49,7 +43,6 @@ export default function RootLayout({
             {children}
           </div>
         </main>
-
       </body>
     </html>
   );
