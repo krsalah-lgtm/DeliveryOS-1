@@ -43,7 +43,7 @@ export default function Home() {
           value={importText}
           onChange={(e) => setImportText(e.target.value)}
           placeholder="e.g., Please deliver 2 burgers from Kareem Restaurant to Ali at 123 Main St. Phone 010xxxxx. Total 350 EGP, delivery fee 50 EGP cash."
-          className="w-full h-40 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand outline-none transition-all resize-none"
+          className="w-full h-40 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-brand outline-none transition-all resize-none text-slate-900"
         />
         
         <div className="mt-4 flex justify-between items-center">
@@ -64,7 +64,7 @@ export default function Home() {
       </div>
 
       {extractedData && (
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-4">
+        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Review Extracted Data</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
