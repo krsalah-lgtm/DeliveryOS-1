@@ -9,7 +9,6 @@ type AIResponse = {
 };
 
 export async function extractOrderData(text: string): Promise<AIResponse | null> {
-  // We check providers in order: Groq (Primary, fast/free), OpenAI (Fallback)
   const providers = [
     {
       name: 'Groq',
@@ -39,7 +38,7 @@ export async function extractOrderData(text: string): Promise<AIResponse | null>
   Do not invent data. Understand Arabic, English, and typos.`;
 
   for (const provider of providers) {
-    if (!provider.key) continue; // Skip if you haven't provided a key for this service
+    if (!provider.key) continue;
 
     try {
       const response = await fetch(provider.url, {
@@ -65,10 +64,8 @@ export async function extractOrderData(text: string): Promise<AIResponse | null>
       }
     } catch (error) {
       console.error(`${provider.name} failed. Trying next provider...`);
-      // Fails silently and loops to the next provider
     }
   }
 
-  // If all providers fail, return null so the application can handle it gracefully
   return null; 
 }
