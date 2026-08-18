@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id                  String   @id @default(cuid())
+  status              String   @default("Confirmed") // Confirmed, Preparing, Ready, Out for Delivery, Delivered, Delayed, Returned, Damaged, Canceled
+  
+  // Financials (Always deterministic, calculated by system)
+  subtotal            Float    @default(0)
+  deliveryFee         Float    @default(0)
+  totalOrderAmount    Float    @default(0)
+  amountPaid          Float    @default(0)
+  amountToCollect     Float    @default(0)
+  merchantAmount      Float    @default(0)
+  driverShare         Float    @default(0)
+  myRevenue           Float    @default(0)
+  revenuePercentage   Float    @default(20) // Default 20%
+  paymentMethod       String   @default("Cash") // Cash, Settled, Online
+
+  // Timestamps & Tracking
+  expectedDelivery    DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  originalImportText  String?  @db.Text
+
+  // Relations
+  customerId          String?
+  customer            Customer? @relation(fields: [customerId], references: [id])
+  merchantId          String?
+  merchant            Merchant? @relation(fields: [merchantId], references: [id])
+  driverId            String?
+  driver              Driver?   @relation(fields: [driverId], references: [id])
+}
+
+model Customer {
+  id              String   @id @default(cuid())
+  name            String
+  primaryPhone    String
+  altPhone        String?
+  primaryAddress  String
+  altAddress      String?
+  notes           String?  @db.Text
+  createdAt       DateTime @default(now())
+  orders          Order[]
+}
+
+model Merchant {
+  id              String   @id @default(cuid())
+  name            String
+  primaryPhone    String
+  primaryAddress  String
+  createdAt       DateTime @default(now())
+  orders          Order[]
+}
+
+model Driver {
+  id              String   @id @default(cuid())
+  name            String
+  phone           String
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  orders          Order[]
+}
